@@ -1,4 +1,4 @@
-import { Contact } from './models/contacts.js';
+import { Contact } from '../models/contacts.js';
 
 export const getStudentsController = async (req, res) => {
   try {
