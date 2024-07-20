@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
+import contactRouters from './routers/contacts';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ export const setupServer = () => {
 
   app.use(cors());
   app.use(pino());
+  app.use(contactRouters);
 
   const PORT = process.env.PORT || 3000;
 
