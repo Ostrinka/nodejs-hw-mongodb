@@ -2,10 +2,10 @@ import { Contact } from '../models/contacts.js';
 import { SORT_ORDER } from '../constants/index.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllContacts = async ({
+export const getAllContacts = async ({ 
   page = 1,
   perPage = 10,
-  sortBy = '_id',
+  sortBy = 'name',
   sortOrder = SORT_ORDER.ASC,
   filter = {},
   }) => {

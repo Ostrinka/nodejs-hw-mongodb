@@ -14,7 +14,7 @@ router.get('/contacts/:contactId', isValidId, ctrlWrapper(getStudentByIdControll
 
 router.post('/contacts', jsonParser, validateBody(createContactSchema), ctrlWrapper(createContactController));
 
-router.patch('/contacts/:contactId', isValidId, validateBody(updateContactSchema), jsonParser, ctrlWrapper(patchContactController));
+router.patch('/contacts/:contactId', jsonParser, isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController));
 
 router.delete('/contacts/:contactId', isValidId, ctrlWrapper(deleteContactController));
 
