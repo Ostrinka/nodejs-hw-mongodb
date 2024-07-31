@@ -15,7 +15,7 @@ function parseSortBy(sortBy) {
     return sortBy;
   }
 
-  return 'name';
+  return "name";
 };
 
 function parseSortOrder(sortOrder) {
