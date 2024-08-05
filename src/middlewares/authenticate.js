@@ -1,5 +1,6 @@
 import createHttpError from 'http-errors';
-import { User, Session } from '../models/user.js';
+import { User } from '../models/user.js';
+import { Session } from '../models/session.js';
 
 export async function authenticate(req, res, next) {
   if (typeof req.headers.authorization !== 'string') {

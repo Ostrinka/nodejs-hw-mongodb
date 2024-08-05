@@ -1,7 +1,8 @@
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
-import { User, Session } from '../models/user.js';
+import { User } from '../models/user.js';
+import { Session } from '../models/session.js';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/index.js';
 
 async function registerUser(user) {
