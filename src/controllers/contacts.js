@@ -9,7 +9,7 @@ export const getContactsController = async (req, res) => {
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseFilterParams(req.query);
 
-  const contacts = await getAllContacts({ page, perPage, sortBy, sortOrder, filter, });
+  const contacts = await getAllContacts({ page, perPage, sortBy, sortOrder, filter, userId: req.user._id });
   res.send({
     status: 200,
     message: 'Successfully found contacts!',
@@ -19,7 +19,7 @@ export const getContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
     const { contactId } = req.params;
-    const contact = await getContactById(contactId);
+    const contact = await getContactById(contactId, req.user._id);
 
     if (!contact) {
     next(createHttpError(404, 'Contact not found'));
@@ -38,6 +38,7 @@ export const createContactController = async (req, res) => {
     phoneNumber: req.body.phoneNumber,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    userId: req.user._id,
     });
 
   res.status(201).send({
@@ -55,6 +56,7 @@ export const patchContactController = async (req, res, next) => {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    userId: req.user._id,
   };
   const result = await patchContact(contactId, contact);
 
