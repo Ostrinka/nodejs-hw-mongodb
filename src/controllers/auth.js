@@ -3,7 +3,7 @@ import { registerUser, loginUser, refreshUserSession, logoutUser } from '../serv
 async function registerUserController(req, res) {
   const user = await registerUser(req.body);
 
-  res.json({
+  res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
     data: user,
@@ -11,7 +11,8 @@ async function registerUserController(req, res) {
 };
 
 async function loginUserController(req, res) {
-  const session = await loginUser(req.body);
+  const { email, password } = req.body;
+  const session = await loginUser(email, password);
 
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
