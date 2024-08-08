@@ -33,10 +33,10 @@ async function loginUserController(req, res) {
 };
 
 async function refreshUserSessionController(req, res) {
-  const session = await refreshUserSession({
-    sessionId: req.cookies.sessionId,
-    refreshToken: req.cookies.refreshToken,
-  });
+  const session = await refreshUserSession(
+    req.cookies.sessionId,
+    req.cookies.refreshToken,
+  );
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: session.refreshTokenValidUntil,

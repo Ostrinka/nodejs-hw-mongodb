@@ -9,11 +9,12 @@ export const getAllContacts = async ({
   sortOrder = SORT_ORDER.ASC,
   filter = {},
   userId,
-  }) => {
+}) => {
+  console.log('Fetching contacts for userId:', userId);
   const limit = perPage;
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
-  const contactsQuery = Contact.find(userId);
+  const contactsQuery = Contact.find();
 
   if (filter.contactType) {
     contactsQuery.where('contactType').equals(filter.contactType);
@@ -51,8 +52,14 @@ export const createContact = async (contact) => {
 };
 
 export const patchContact = async (contactId, userId, contact) => {
-  const result = await Contact.findOneAndUpdate({ _id: contactId, userId }, contact,{new:true});
-  return result;
+  const result = await Contact.findOneAndUpdate({ _id: contactId, userId }, contact, { new:true });
+  
+  if (!result || !result.value) return null;
+
+  return {
+    contact: result.value,
+    isNew: Boolean(result?.lastErrorObject?.upserted),
+  };
 };
 
 export const deleteContact = async (contactId, userId) => {

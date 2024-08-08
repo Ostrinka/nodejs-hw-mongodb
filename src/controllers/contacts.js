@@ -13,7 +13,7 @@ export const getContactsController = async (req, res) => {
   res.send({
     status: 200,
     message: 'Successfully found contacts!',
-    data: contacts,
+    data: contacts
   });
 };
 
@@ -40,7 +40,7 @@ export const createContactController = async (req, res) => {
     contactType: req.body.contactType,
     userId: req.user._id,
     });
-
+console.log('Created contact:', contact);
   res.status(201).send({
     status: 201,
     message: `Successfully created a contact!`,
@@ -56,9 +56,9 @@ export const patchContactController = async (req, res, next) => {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
-    userId: req.user._id,
+    // userId: req.user._id,
   };
-  const result = await patchContact(contactId, contact);
+  const result = await patchContact(contactId, contact, req.user._id);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
