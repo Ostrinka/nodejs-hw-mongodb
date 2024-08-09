@@ -10,11 +10,10 @@ export const getAllContacts = async ({
   filter = {},
   userId,
 }) => {
-  console.log('Fetching contacts for userId:', userId);
   const limit = perPage;
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
-  const contactsQuery = Contact.find();
+  const contactsQuery = Contact.find({ userId });
 
   if (filter.contactType) {
     contactsQuery.where('contactType').equals(filter.contactType);
@@ -25,7 +24,7 @@ export const getAllContacts = async ({
   contactsQuery.where('userId').equals(userId);
 
   const [contactsCount, contacts] = await Promise.all([
-    Contact.find().merge(contactsQuery).countDocuments(),
+    Contact.find({ userId }).merge(contactsQuery).countDocuments(),
     contactsQuery
       .skip(skip)
       .limit(limit)
@@ -51,15 +50,10 @@ export const createContact = async (contact) => {
   return newContact;
 };
 
-export const patchContact = async (contactId, userId, contact) => {
-  const result = await Contact.findOneAndUpdate({ _id: contactId, userId }, contact, { new:true });
-  
-  if (!result || !result.value) return null;
 
-  return {
-    contact: result.value,
-    isNew: Boolean(result?.lastErrorObject?.upserted),
-  };
+export const patchContact = async (contactId, contact) => {
+  const result = await Contact.findByIdAndUpdate(contactId, contact,{new:true});
+  return result;
 };
 
 export const deleteContact = async (contactId, userId) => {

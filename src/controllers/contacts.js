@@ -39,8 +39,8 @@ export const createContactController = async (req, res) => {
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
     userId: req.user._id,
-    });
-console.log('Created contact:', contact);
+  });
+  
   res.status(201).send({
     status: 201,
     message: `Successfully created a contact!`,
@@ -56,9 +56,8 @@ export const patchContactController = async (req, res, next) => {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
-    // userId: req.user._id,
   };
-  const result = await patchContact(contactId, contact, req.user._id);
+  const result = await patchContact(contactId, contact);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
@@ -71,6 +70,7 @@ export const patchContactController = async (req, res, next) => {
     data: result,
   });
 };
+
 
 export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
