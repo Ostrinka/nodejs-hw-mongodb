@@ -10,14 +10,6 @@ import { notFoundHandler} from './middlewares/notFoundHandler.js';
 
 dotenv.config();
 
-console.log('SMTP Configuration:', {
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  user: process.env.SMTP_USER,
-  pass: process.env.SMTP_PASSWORD,
-  fromEmail: process.env.SMTP_FROM_EMAIL,
-});
-
 export const setupServer = () => {
   
   const app = express();
@@ -25,7 +17,13 @@ export const setupServer = () => {
   app.use(cookieParser());
 
   app.use(cors());
-  app.use(pino());
+  app.use(
+  pino({
+    transport: {
+      target: 'pino-pretty',
+      },
+    }),
+  );
   app.use(authRouters);
   app.use(contactRouters);
   app.use(errorHandler);
