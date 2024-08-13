@@ -3,7 +3,8 @@ import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/index.js';
+import { sendMail } from '../utils/sendMail.js';
+import { ACCESS_TOKEN, REFRESH_TOKEN, SMTP } from '../constants/index.js';
 
 async function registerUser(user) {
   const maybeUser = await User.findOne({ email: user.email });
@@ -68,6 +69,44 @@ async function refreshUserSession(sessionId, refreshToken) {
 
 function logoutUser(sessionId) {
     return Session.deleteOne({ _id: sessionId });
-  }
+}
   
-export { registerUser, loginUser, logoutUser, refreshUserSession };
+// async function requestResetEmail(email) {
+//   const user = await User.findOne({ email });
+   
+//   if (user === null) {
+//     throw createHttpError(404, 'User not found');
+//   }
+
+//   await sendMail({
+//     from: SMTP.FROM_EMAIL,
+//     to: email,
+//     subject: 'Reset your password',
+//     html: `To reset password click <a href="https://www.google.com/">here</a>`,
+//   });
+// };
+
+
+async function requestResetEmail(email) {
+  const user = await User.findOne({ email });
+  
+  if (user === null) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  try {
+    const result = await sendMail({
+      from: SMTP.FROM_EMAIL,
+      to: email,
+      subject: 'Reset your password',
+      html: `To reset password click <a href="https://www.google.com/">here</a>`,
+    });
+    console.log('Email sent:', result);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw createHttpError(500, 'Failed to send email');
+  }
+};
+
+  
+export { registerUser, loginUser, logoutUser, refreshUserSession, requestResetEmail };
