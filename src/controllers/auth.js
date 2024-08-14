@@ -1,4 +1,4 @@
-import { registerUser, loginUser, refreshUserSession, logoutUser, requestResetEmail } from '../services/auth.js';
+import { registerUser, loginUser, refreshUserSession, logoutUser, requestResetEmail, resetPassword } from '../services/auth.js';
 
 async function registerUserController(req, res) {
   const user = await registerUser(req.body);
@@ -75,4 +75,13 @@ async function requestResetEmailController(req, res) {
   });
 };
 
-export { registerUserController, loginUserController, refreshUserSessionController, logoutUserController, requestResetEmailController };
+async function resetPasswordController(req, res) {
+  await resetPassword(req.body);
+  res.send({
+    status: 200,
+    message: 'Password has been successfully reset.',
+    data: {},
+  });
+};
+
+export { registerUserController, loginUserController, refreshUserSessionController, logoutUserController, requestResetEmailController, resetPasswordController };
