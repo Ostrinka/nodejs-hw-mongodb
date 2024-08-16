@@ -109,7 +109,7 @@ const resetToken = jwt.sign(
     name: user.name,
     link: `${('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
- 
+  
   await sendMail({
     from: SMTP.FROM_EMAIL,
     to: email,
@@ -117,6 +117,8 @@ const resetToken = jwt.sign(
     html,
   });
 };
+
+
 
 async function resetPassword(password, token) {
   try {

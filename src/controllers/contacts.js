@@ -3,6 +3,9 @@ import { getAllContacts, getContactById, createContact, patchContact, deleteCont
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+// import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+// import { env } from '../utils/env.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -48,23 +51,85 @@ export const createContactController = async (req, res) => {
   });
 };
 
+
+// export const createContactController = async (req, res) => {
+//   const photo = req.file;
+
+//   let photoUrl;
+
+//   if (photo) {
+//     if (env('ENABLE_CLOUDINARY') === 'true') {
+//       photoUrl = await saveFileToCloudinary(photo);
+//     } else {
+//       photoUrl = await saveFileToUploadDir(photo);
+//     }
+//   }
+//   const contact = {
+//     name: req.body.name,
+//     phoneNumber: req.body.phoneNumber,
+//     email: req.body.email,
+//     isFavourite: req.body.isFavourite,
+//     contactType: req.body.contactType,
+//     userId: req.user._id,
+//     photo: photoUrl,
+//   };
+//   const createdContact = await createContact(contact);
+
+//   res.status(201).send({
+//     status: 201,
+//     message: `Successfully created a contact!`,
+//     data: createdContact,
+//   });
+// };
+
+
+// export const patchContactController = async (req, res, next) => {
+//   const { contactId } = req.params;
+//   const photo = req.file;
+//   const contact = {
+//     name: req.body.name,
+//     phoneNumber: req.body.phoneNumber,
+//     email: req.body.email,
+//     isFavourite: req.body.isFavourite,
+//     contactType: req.body.contactType,
+//   };
+//   const result = await patchContact(contactId, contact);
+
+//   if (!result) {
+//     next(createHttpError(404, 'Contact not found'));
+//     return;
+//   }
+
+//   res.send({
+//     status: 200,
+//     message: `Successfully patched a contact!`,
+//     data: result,
+//   });
+// };
+
+
+
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = {
-    name: req.body.name,
-    phoneNumber: req.body.phoneNumber,
-    email: req.body.email,
-    isFavourite: req.body.isFavourite,
-    contactType: req.body.contactType,
-  };
-  const result = await patchContact(contactId, contact);
+  const photo = req.file;
+
+  let photoUrl;
+
+  if (photo) {
+    photoUrl = await saveFileToUploadDir(photo);
+  }
+
+  const result = await patchContact(contactId, {
+    ...req.body,
+    photo: photoUrl,
+  });
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
     return;
   }
 
-  res.send({
+  res.json({
     status: 200,
     message: `Successfully patched a contact!`,
     data: result,
