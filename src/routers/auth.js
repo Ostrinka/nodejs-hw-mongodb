@@ -18,6 +18,6 @@ router.post('/auth/logout', jsonParser, ctrlWrapper(logoutUserController));
 
 router.post('/auth/send-reset-email', jsonParser, validateBody(requestResetEmailSchema),ctrlWrapper(requestResetEmailController));
 
-router.post('/reset-password', jsonParser, validateBody(resetPasswordSchema), ctrlWrapper(resetPasswordController));
+router.post('/auth/reset-pwd', jsonParser, validateBody(resetPasswordSchema), ctrlWrapper(resetPasswordController));
 
 export default router;
