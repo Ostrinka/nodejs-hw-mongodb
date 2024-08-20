@@ -9,6 +9,7 @@ import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
 import { sendMail } from '../utils/sendMail.js';
 import { ACCESS_TOKEN, REFRESH_TOKEN, SMTP, TEMPLATES_DIR } from '../constants/index.js';
+import { env } from '../utils/env.js';
 
 async function registerUser(user) {
   const maybeUser = await User.findOne({ email: user.email });
@@ -107,7 +108,7 @@ const resetToken = jwt.sign(
 
   const html = template({
     name: user.name,
-    link: `${('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
   
   await sendMail({
