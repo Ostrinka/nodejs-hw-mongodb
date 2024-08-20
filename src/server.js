@@ -33,6 +33,8 @@ export const setupServer = () => {
 
   const PORT = process.env.PORT || 3000;
 
+  console.log('APP_DOMAIN:', process.env.APP_DOMAIN);
+
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
