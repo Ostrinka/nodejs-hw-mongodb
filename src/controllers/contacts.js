@@ -65,32 +65,6 @@ export const createContactController = async (req, res) => {
 };
 
 
-// export const patchContactController = async (req, res, next) => {
-//   const { contactId } = req.params;
-//   const photo = req.file;
-//   const contact = {
-//     name: req.body.name,
-//     phoneNumber: req.body.phoneNumber,
-//     email: req.body.email,
-//     isFavourite: req.body.isFavourite,
-//     contactType: req.body.contactType,
-//   };
-//   const result = await patchContact(contactId, contact);
-
-//   if (!result) {
-//     next(createHttpError(404, 'Contact not found'));
-//     return;
-//   }
-
-//   res.send({
-//     status: 200,
-//     message: `Successfully patched a contact!`,
-//     data: result,
-//   });
-// };
-
-
-
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const photo = req.file;
