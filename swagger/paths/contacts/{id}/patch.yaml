@@ -45,7 +45,7 @@ requestBody:
           photo:
             description: "Link to the contact's photo"
             type: string
-            example: https://res.cloudinary.com/df1f7acea/image/upload/v1724189387/nnfigl6pjhqsk6jbrrlz.jpg
+            format: binary
 responses:
   '200':
     description: Successfully updated the contact!

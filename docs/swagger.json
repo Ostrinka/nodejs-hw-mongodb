@@ -12,6 +12,9 @@
   "servers": [
     {
       "url": "http://localhost:3000"
+    },
+    {
+      "url": "https://contacts-swagger-henx.onrender.com"
     }
   ],
   "tags": [
@@ -226,7 +229,7 @@
                   "photo": {
                     "description": "Contact's photo",
                     "type": "string",
-                    "example": "https://res.cloudinary.com/df1f7acea/image/upload/v1724189387/nnfigl6pjhqsk6jbrrlz.jpg"
+                    "format": "binary"
                   }
                 }
               }
@@ -393,7 +396,7 @@
                   "photo": {
                     "description": "Link to the contact's photo",
                     "type": "string",
-                    "example": "https://res.cloudinary.com/df1f7acea/image/upload/v1724189387/nnfigl6pjhqsk6jbrrlz.jpg"
+                    "format": "binary"
                   }
                 }
               }
